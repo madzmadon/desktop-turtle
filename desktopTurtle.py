@@ -15,7 +15,8 @@ sleep_num = [10,11,12,13,15]
 walk_left = [6,7]
 walk_right = [8,9]
 event_number = random.randrange(1,3,1)
-impath = '/Users/madisonevans/Desktop/Desktop Pet/desktop-turtle/'
+impath = '/Users/kathr/OneDrive/Desktop/Multimedia/FinalProject/desktop-turtle/'
+#'/Users/madisonevans/Desktop/Desktop Pet/desktop-turtle/'
 
 
 def clamp(val, min, max):
@@ -94,19 +95,24 @@ def update(cycle,check,event_number,x,y):
     window.after(1,event,cycle,check,event_number,x,y)
     
 window = tk.Tk()
+
 #call buddy's action gif
+
 idle = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(5)]#idle gif
 idle_to_sleep = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(8)]#idle to sleep gif
 sleep = [tk.PhotoImage(file=impath+'sleep.gif',format = 'gif -index %i' %(i)) for i in range(3)]#sleep gif
 sleep_to_idle = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(8)]#sleep to idle gif
 walk_positive = [tk.PhotoImage(file=impath+'walk-right.gif',format = 'gif -index %i' %(i)) for i in range(8)]#walk to left gif
 walk_negative = [tk.PhotoImage(file=impath+'walk-left.gif',format = 'gif -index %i' %(i)) for i in range(8)]#walk to right gif
+
 #window configuration
 window.config(highlightbackground='black')
 label = tk.Label(window,bd=0,bg='black')
 window.overrideredirect(True)
-window.wm_attributes('-transparent', True)
+window.wm_attributes('-transparent', 'black')
 label.pack()
+
+
 #loop the program
 window.after(1,update,cycle,check,event_number,x,y)
 window.mainloop()
