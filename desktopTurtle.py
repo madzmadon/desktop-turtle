@@ -91,19 +91,29 @@ def update(cycle,check,event_number,x,y):
     x = clamp(x, 0, SCREEN_WIDTH - 100)
     y = clamp(y, 0, SCREEN_HEIGHT - 100)
     window.geometry(f"100x100+{x}+{y}")
+    #
     label.configure(image=frame)
     window.after(1,event,cycle,check,event_number,x,y)
     
 window = tk.Tk()
 
 #call buddy's action gif
-
-idle = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(5)]#idle gif
-idle_to_sleep = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(8)]#idle to sleep gif
-sleep = [tk.PhotoImage(file=impath+'sleep.gif',format = 'gif -index %i' %(i)) for i in range(3)]#sleep gif
-sleep_to_idle = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(8)]#sleep to idle gif
-walk_positive = [tk.PhotoImage(file=impath+'walk-right.gif',format = 'gif -index %i' %(i)) for i in range(8)]#walk to left gif
-walk_negative = [tk.PhotoImage(file=impath+'walk-left.gif',format = 'gif -index %i' %(i)) for i in range(8)]#walk to right gif
+"""
+tk.PhotoImage(file path, format)
+- create image object
+"""
+#idle gif
+idle = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(5)]
+#idle to sleep gif
+idle_to_sleep = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(8)]
+#sleep gif
+sleep = [tk.PhotoImage(file=impath+'sleep.gif',format = 'gif -index %i' %(i)) for i in range(3)]
+#sleep to idle gif
+sleep_to_idle = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(8)]
+#walk to left gif
+walk_positive = [tk.PhotoImage(file=impath+'walk-right.gif',format = 'gif -index %i' %(i)) for i in range(8)]
+#walk to right gif
+walk_negative = [tk.PhotoImage(file=impath+'walk-left.gif',format = 'gif -index %i' %(i)) for i in range(8)]
 
 #window configuration
 window.config(highlightbackground='black')
