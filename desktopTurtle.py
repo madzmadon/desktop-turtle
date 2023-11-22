@@ -91,8 +91,13 @@ def update(cycle,check,event_number,x,y):
     x = clamp(x, 0, SCREEN_WIDTH - 100)
     y = clamp(y, 0, SCREEN_HEIGHT - 100)
     window.geometry(f"100x100+{x}+{y}")
-    #
+    
+    #Resizing the image
+    frame = frame.zoom(3)
+    frame = frame.subsample(15)
+    
     label.configure(image=frame)
+    label.image = frame
     window.after(1,event,cycle,check,event_number,x,y)
     
 window = tk.Tk()
