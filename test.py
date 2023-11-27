@@ -21,7 +21,9 @@ img = img.subsample(14)
 
 #Display image
 label = tk.Label(image = img)
+
 #label.image = img
+
 label.pack()
 
 window.mainloop()

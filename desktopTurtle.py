@@ -7,7 +7,7 @@ print(Path.cwd())
 SCREEN_WIDTH = 1440 
 SCREEN_HEIGHT = 900
 x = 100
-y=100
+y= 100
 cycle = 0
 check = 1
 idle_num =[1,2,3,4]
@@ -90,7 +90,7 @@ def update(cycle,check,event_number,x,y):
     
     x = clamp(x, 0, SCREEN_WIDTH - 100)
     y = clamp(y, 0, SCREEN_HEIGHT - 100)
-    window.geometry(f"100x100+{x}+{y}")
+    window.geometry(f"115x65+{x}+{y}")
     
     #Resizing the image
     frame = frame.zoom(3)
