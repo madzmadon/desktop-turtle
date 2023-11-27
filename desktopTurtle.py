@@ -98,15 +98,13 @@ def update(cycle,check,event_number,x,y):
     
     label.configure(image=frame)
     label.image = frame
+    
+    #After 1 ms: call event()
     window.after(1,event,cycle,check,event_number,x,y)
     
 window = tk.Tk()
 
 #call buddy's action gif
-"""
-tk.PhotoImage(file path, format)
-- create image object
-"""
 #idle gif
 idle = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(5)]
 #idle to sleep gif
