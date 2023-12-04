@@ -1,68 +1,94 @@
-import random
+########################## FINAL PROJECT #############################################
+# GROUP MEMBERS:
+    #Madison Evans
+    # Adrianna Barrera
+    # Kathryn Kaelin
+# TOPIC:
+    # Desktop Pet Turtle
+######################################################################################
+
+
+# Import necessary modules 
+import random 
 import tkinter as tk
 
+# Print current working directory path
 from pathlib import Path
 print(Path.cwd())
 
-SCREEN_WIDTH = 1440 
-SCREEN_HEIGHT = 900
-x = 100
-y= 100
-cycle = 0
-check = 1
-idle_num =[1,2,3,4]
-sleep_num = [10,11,12,13,15]
-walk_left = [6,7]
-walk_right = [8,9]
-event_number = random.randrange(1,3,1)
-impath = '/Users/kathr/OneDrive/Desktop/Multimedia/FinalProject/desktop-turtle/'
-#'/Users/madisonevans/Desktop/Desktop Pet/desktop-turtle/'
+SCREEN_WIDTH = 1440 # Set width of program screen area 
+SCREEN_HEIGHT = 900 # Set height of program screen area
 
+x = 100 # Starting x position for turtle
+y= 100 # Starting y position for turtle
 
+cycle = 0 # Animation cycle counter
+check = 1 # Used to track current animation event
+idle_num =[1,2,3,4] # Event numbers that trigger idle animation
+sleep_num = [10,11,12,13,15] # Event numbers that trigger sleep animation
+walk_left = [6,7] # Event numbers to walk left
+walk_right = [8,9] # Event numbers to walk right  
+
+event_number = random.randrange(1,3,1) # Pick a starting event  
+
+# Path to folder containing gif images
+impath = '/Users/madisonevans/Desktop/desktop-turtle/'
+#'/Users/madisonevans/Desktop/desktop-turtle/'
+#'/Users/kathr/OneDrive/Desktop/Multimedia/FinalProject/desktop-turtle/'
+
+# Logic to keep x,y positions within screen boundaries
 def clamp(val, min, max):
   return min if val < min else max if val > max else val
 
 
+# Main event handling logic 
 def event(cycle,check,event_number,x,y):
-    if event_number in idle_num:
-        check = 0
-        print('idle')
-        window.after(400,update,cycle,check,event_number,x,y) #no. 1,2,3,4 = idle
-    elif event_number == 5:
+    
+    if event_number in idle_num:  # If idle event  
+        check = 0 # Update event tracker  
+        print('idle') # Debug print  
+        window.after(400,update,cycle,check,event_number,x,y) # Schedule next update, idle speed  
+
+    elif event_number == 5: # If idle->sleep event 
         check = 1
         print('from idle to sleep')
         window.after(100,update,cycle,check,event_number,x,y) #no. 5 = idle to sleep
-    elif event_number in walk_left:
+        
+    elif event_number in walk_left: # Handle walk left
         check = 4
         print('walking towards left')
-        window.after(100,update,cycle,check,event_number,x,y)#no. 6,7 = walk towards left
-    elif event_number in walk_right:
+        window.after(400,update,cycle,check,event_number,x,y)#no. 6,7 = walk towards left
+    
+    elif event_number in walk_right: # Handle walk right
         check = 5
         print('walking towards right')
-        window.after(100,update,cycle,check,event_number,x,y)#no 8,9 = walk towards right
-    elif event_number in sleep_num:
+        window.after(400,update,cycle,check,event_number,x,y)#no 8,9 = walk towards right
+   
+    elif event_number in sleep_num: # Handle sleep
         check  = 2
         print('sleep')
-        window.after(1000,update,cycle,check,event_number,x,y)#no. 10,11,12,13,15 = sleep
-    elif event_number == 14:
+        window.after(600,update,cycle,check,event_number,x,y)#no. 10,11,12,13,15 = sleep
+   
+    elif event_number == 14: # Handle sleep->idle events  
         check = 3
         print('from sleep to idle')
         window.after(100,update,cycle,check,event_number,x,y)#no. 15 = sleep to idle
 
-#making gif work 
+# Logic to cycle through gif frame animation
 def gif_work(cycle,frames,event_number,first_num,last_num):
-    if cycle < len(frames) -1:
+    
+    if cycle < len(frames) -1: # Haven't reached last frame
         cycle+=1
     else:
-        cycle = 0
-        event_number = random.randrange(first_num,last_num+1,1)
-    return cycle,event_number
+        cycle = 0 # Reset cycle count
+        event_number = random.randrange(first_num,last_num+1,1) # Pick new event
+    return cycle,event_number # Return updated animation & event variables
 
 def update(cycle,check,event_number,x,y):
     #idle
-    if check ==0:
-        frame = idle[cycle]
-        cycle ,event_number = gif_work(cycle,idle,event_number,1,9)
+    if check ==0:  # If idle event
+        frame = idle[cycle] # Set current animation, call gif_work to cycle frames
+        cycle ,event_number = gif_work(cycle,idle,event_number,1,9) # Update cycle counter and event_number
     #idle to sleep
     elif check ==1:
         frame = idle_to_sleep[cycle]
@@ -79,32 +105,35 @@ def update(cycle,check,event_number,x,y):
     elif check == 4:
         frame = walk_positive[cycle]
         cycle , event_number = gif_work(cycle,walk_positive,event_number,1,9)
-        x += 30
-        y += 30
+        x += 1
+        y += 1
     #walk towards right
     elif check == 5:
         frame = walk_negative[cycle]
         cycle , event_number = gif_work(cycle,walk_negative,event_number,1,9)
-        x += -30
-        y += -30
+        x += -1
+        y += -1
     
+    # Keep x,y bounded by screen size using clamp()
     x = clamp(x, 0, SCREEN_WIDTH - 100)
     y = clamp(y, 0, SCREEN_HEIGHT - 100)
     window.geometry(f"115x65+{x}+{y}")
     
-    #Resizing the image
+    # Resize gif for display & configure label
     frame = frame.zoom(3)
     frame = frame.subsample(15)
     
     label.configure(image=frame)
     label.image = frame
     
-    #After 1 ms: call event()
+
     window.after(1,event,cycle,check,event_number,x,y)
     
-window = tk.Tk()
+window = tk.Tk() # Create main app window 
 
-#call buddy's action gif
+############################## CALL BUDDYS ACTION GIF #####################################################
+# Create list of PhotoImage objects for idle animation
+# Iterate through images in a specific gif
 #idle gif
 idle = [tk.PhotoImage(file=impath+'idle.gif',format = 'gif -index %i' %(i)) for i in range(5)]
 #idle to sleep gif
@@ -118,14 +147,19 @@ walk_positive = [tk.PhotoImage(file=impath+'walk-right.gif',format = 'gif -index
 #walk to right gif
 walk_negative = [tk.PhotoImage(file=impath+'walk-left.gif',format = 'gif -index %i' %(i)) for i in range(8)]
 
-#window configuration
-window.config(highlightbackground='black')
+############################## WINDOW CONFIGURATION #####################################################
+
+window.config(highlightbackground='black') # Make window transparent
+
+# Additional settings to enable transparency effect
 label = tk.Label(window,bd=0,bg='black')
 window.overrideredirect(True)
 window.wm_attributes('-transparent', 'black')
-label.pack()
 
+label.pack()# Pack label to apply configs
 
-#loop the program
-window.after(1,update,cycle,check,event_number,x,y)
-window.mainloop()
+############################## MAIN LOOP #####################################################
+
+window.after(1,update,cycle,check,event_number,x,y) # Update animation frame, position etc. 
+window.mainloop() # Start main loop
+
